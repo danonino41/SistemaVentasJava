@@ -2,6 +2,8 @@ package Vista;
 
 import Modelo.Clientes;
 import Modelo.ClientesDAO;
+import Modelo.Productos;
+import Modelo.ProductosDAO;
 import Modelo.Proveedor;
 import Modelo.ProveedorDAO;
 import java.util.List;
@@ -12,9 +14,11 @@ public class Sistema extends javax.swing.JFrame {
 
     Clientes cl = new Clientes();
     ClientesDAO client = new ClientesDAO();
-
     Proveedor pr = new Proveedor();
     ProveedorDAO PrDao = new ProveedorDAO();
+    Productos pro = new Productos();
+    ProductosDAO proDao = new ProductosDAO();
+
     DefaultTableModel modelo = new DefaultTableModel();
 
     public Sistema() {
@@ -638,6 +642,11 @@ public class Sistema extends javax.swing.JFrame {
         });
 
         btnNuevoProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/nuevo.png"))); // NOI18N
+        btnNuevoProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoProveedorActionPerformed(evt);
+            }
+        });
 
         btnGuardarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/GuardarTodo.png"))); // NOI18N
         btnGuardarProveedor.addActionListener(new java.awt.event.ActionListener() {
@@ -1044,6 +1053,9 @@ public class Sistema extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Los Campos estan vacios.");
         }
+
+        JOptionPane.showMessageDialog(null, "Proveedor Guardado Correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+
         LimpiarTable();
         LimpiarProveedor();
         ListarProveedor();
@@ -1101,6 +1113,19 @@ public class Sistema extends javax.swing.JFrame {
 
     private void btnGuardarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProductoActionPerformed
         // TODO add your handling code here:
+        if (!"".equals(txtCodigoProducto.getText()) && !"".equals(txtDescripcionProducto.getText()) && !"".equals(cbxProveedorProducto.getSelectedItem()) && !"".equals(txtCantidadProducto.getText()) && !"".equals(txtPrecioProducto.getText())) {
+            pro.setCodigo(txtCodigoProducto.getText());
+            pro.setNombre(txtDescripcionProducto.getText());
+            pro.setProveedor(cbxProveedorProducto.getSelectedItem().toString());
+            pro.setStock(Integer.parseInt(txtCantidadProducto.getText()));
+            pro.setPrecio(Double.parseDouble(txtPrecioProducto.getText()));
+            proDao.RegistrarProductos(pro);
+
+            JOptionPane.showMessageDialog(null, "Producto agregado correctamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Los Campos estan vacios.");
+        }
     }//GEN-LAST:event_btnGuardarProductoActionPerformed
 
     private void txtDniClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDniClienteActionPerformed
@@ -1115,7 +1140,6 @@ public class Sistema extends javax.swing.JFrame {
         txtTelefonoCliente.setText(TableCliente.getValueAt(fila, 3).toString());
         txtDireccionCliente.setText(TableCliente.getValueAt(fila, 4).toString());
         txtRazonCliente.setText(TableCliente.getValueAt(fila, 5).toString());
-
     }//GEN-LAST:event_TableClienteMouseClicked
 
     private void btnEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClienteActionPerformed
@@ -1191,6 +1215,9 @@ public class Sistema extends javax.swing.JFrame {
             if (pregunta == 0) {
                 int id = Integer.parseInt(txtIdProveedor.getText());
                 PrDao.EliminarProveedor(id);
+
+                JOptionPane.showMessageDialog(null, "Proveedor Eliminado Correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+
                 LimpiarTable();
                 ListarProveedor();
                 LimpiarProveedor();
@@ -1208,9 +1235,8 @@ public class Sistema extends javax.swing.JFrame {
         if (!"".equals(txtRucProveedor.getText())
                 && !"".equals(txtNombreProveedor.getText())
                 && !"".equals(txtTelefonoProveedor.getText())
-                && !"".equals(txtDireccionProveedor.getText())
-                && !"".equals(txtRazonProveedor.getText())) {
-            pr.setRuc(Integer.parseInt(txtRucProveedor.getText())); 
+                && !"".equals(txtDireccionProveedor.getText())) {
+            pr.setRuc(Integer.parseInt(txtRucProveedor.getText()));
             pr.setNombre(txtNombreProveedor.getText());
             pr.setTelefono(Integer.parseInt(txtTelefonoProveedor.getText()));
             pr.setDireccion(txtDireccionProveedor.getText());
@@ -1219,6 +1245,8 @@ public class Sistema extends javax.swing.JFrame {
 
             PrDao.ModificarProveedor(pr);
 
+            JOptionPane.showMessageDialog(null, "Proveedor Actualizado", "Información", JOptionPane.INFORMATION_MESSAGE);
+
             LimpiarTable();
             ListarProveedor();
             LimpiarProveedor();
@@ -1226,6 +1254,10 @@ public class Sistema extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Complete todos los campos");
         }
     }//GEN-LAST:event_btnEditarProveedorActionPerformed
+
+    private void btnNuevoProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoProveedorActionPerformed
+        LimpiarProveedor();
+    }//GEN-LAST:event_btnNuevoProveedorActionPerformed
 
     /**
      * @param args the command line arguments
