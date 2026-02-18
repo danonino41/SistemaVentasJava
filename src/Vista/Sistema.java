@@ -9,6 +9,7 @@ import Modelo.ProveedorDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class Sistema extends javax.swing.JFrame {
 
@@ -25,6 +26,9 @@ public class Sistema extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         txtIdCliente.setVisible(false);
+        cbxProveedorProducto.setEditable(true);
+        AutoCompleteDecorator.decorate(cbxProveedorProducto);
+        proDao.ConsultarProveedor(cbxProveedorProducto);
     }
 
     public void ListarCliente() {
@@ -59,6 +63,22 @@ public class Sistema extends javax.swing.JFrame {
         TableProveedor.setModel(modelo);
     }
 
+    private void ListarProductos() {
+        List<Productos> ListarPro = proDao.ListarProductos();
+        modelo = (DefaultTableModel) TableProducto.getModel();
+        Object[] ob = new Object[6];
+        for (int i = 0; i < ListarPro.size(); i++) {
+            ob[0] = ListarPro.get(i).getId();
+            ob[1] = ListarPro.get(i).getCodigo();
+            ob[2] = ListarPro.get(i).getNombre();
+            ob[3] = ListarPro.get(i).getProveedor();
+            ob[4] = ListarPro.get(i).getStock();
+            ob[5] = ListarPro.get(i).getPrecio();
+            modelo.addRow(ob);
+        }
+        TableProducto.setModel(modelo);
+    }
+
     public void LimpiarTable() {
         for (int i = 0; i < modelo.getRowCount(); i++) {
             modelo.removeRow(i);
@@ -77,12 +97,12 @@ public class Sistema extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        btnNuevaVenta = new javax.swing.JButton();
+        btnProveedores = new javax.swing.JButton();
+        btnClientes = new javax.swing.JButton();
+        btnProductos = new javax.swing.JButton();
+        btnVentas = new javax.swing.JButton();
+        btnConfig = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -191,51 +211,51 @@ public class Sistema extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/logo.png"))); // NOI18N
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Nventa.png"))); // NOI18N
-        jButton2.setText("Nueva Venta");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnNuevaVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Nventa.png"))); // NOI18N
+        btnNuevaVenta.setText("Nueva Venta");
+        btnNuevaVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnNuevaVentaActionPerformed(evt);
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/proveedor.png"))); // NOI18N
-        jButton3.setText("Proveedores");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnProveedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/proveedor.png"))); // NOI18N
+        btnProveedores.setText("Proveedores");
+        btnProveedores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnProveedoresActionPerformed(evt);
             }
         });
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Clientes.png"))); // NOI18N
-        jButton4.setText("Clientes");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Clientes.png"))); // NOI18N
+        btnClientes.setText("Clientes");
+        btnClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnClientesActionPerformed(evt);
             }
         });
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/producto.png"))); // NOI18N
-        jButton5.setText("Producto");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/producto.png"))); // NOI18N
+        btnProductos.setText("Producto");
+        btnProductos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnProductosActionPerformed(evt);
             }
         });
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/compras.png"))); // NOI18N
-        jButton6.setText("Ventas");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/compras.png"))); // NOI18N
+        btnVentas.setText("Ventas");
+        btnVentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnVentasActionPerformed(evt);
             }
         });
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/config.png"))); // NOI18N
-        jButton7.setText("Config");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btnConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/config.png"))); // NOI18N
+        btnConfig.setText("Config");
+        btnConfig.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btnConfigActionPerformed(evt);
             }
         });
 
@@ -246,13 +266,13 @@ public class Sistema extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNuevaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -261,17 +281,17 @@ public class Sistema extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnNuevaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(67, Short.MAX_VALUE))
         );
 
@@ -761,20 +781,32 @@ public class Sistema extends javax.swing.JFrame {
 
         TableProducto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "CODIGO", "DESCRIPCION", "CANTIDAD", "PRECIO", "PROVEEDOR"
+                "ID", "CODIGO", "DESCRIPCION", "PROVEEDOR", "CANTIDAD", "PRECIO"
             }
         ));
+        TableProducto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableProductoMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(TableProducto);
 
         btnEditarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Actualizar (2).png"))); // NOI18N
+        btnEditarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarProductoActionPerformed(evt);
+            }
+        });
 
         btnNuevoProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/nuevo.png"))); // NOI18N
+        btnNuevoProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoProductoActionPerformed(evt);
+            }
+        });
 
         btnGuardarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/GuardarTodo.png"))); // NOI18N
         btnGuardarProducto.addActionListener(new java.awt.event.ActionListener() {
@@ -784,6 +816,11 @@ public class Sistema extends javax.swing.JFrame {
         });
 
         btnEliminarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/eliminar.png"))); // NOI18N
+        btnEliminarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarProductoActionPerformed(evt);
+            }
+        });
 
         btnExcelProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/excel.png"))); // NOI18N
 
@@ -1014,33 +1051,36 @@ public class Sistema extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnNuevaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaVentaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnNuevaVentaActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveedoresActionPerformed
         LimpiarTable();
         ListarProveedor();
         jTabbedPane1.setSelectedIndex(2);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnProveedoresActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         LimpiarTable();
         ListarCliente();
         jTabbedPane1.setSelectedIndex(1);
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btnClientesActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
+        // TABLA PRODUCTOS:
+        LimpiarTable();
+        ListarProductos();
+        jTabbedPane1.setSelectedIndex(3);
+    }//GEN-LAST:event_btnProductosActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btnVentasActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void btnConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfigActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_btnConfigActionPerformed
 
     private void btnGuardarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProveedorActionPerformed
         if (!"".equals(txtRucProveedor.getText()) && !"".equals(txtNombreProveedor.getText()) && !"".equals(txtTelefonoProveedor.getText()) && !"".equals(txtDireccionProveedor.getText()) && !"".equals(txtRazonProveedor.getText())) {
@@ -1112,7 +1152,7 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodigoVentaActionPerformed
 
     private void btnGuardarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProductoActionPerformed
-        // TODO add your handling code here:
+        // GUARDAR PRODUCTO:
         if (!"".equals(txtCodigoProducto.getText()) && !"".equals(txtDescripcionProducto.getText()) && !"".equals(cbxProveedorProducto.getSelectedItem()) && !"".equals(txtCantidadProducto.getText()) && !"".equals(txtPrecioProducto.getText())) {
             pro.setCodigo(txtCodigoProducto.getText());
             pro.setNombre(txtDescripcionProducto.getText());
@@ -1126,6 +1166,10 @@ public class Sistema extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Los Campos estan vacios.");
         }
+
+        LimpiarTable();
+        LimpiarProductos();
+        ListarProductos();
     }//GEN-LAST:event_btnGuardarProductoActionPerformed
 
     private void txtDniClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDniClienteActionPerformed
@@ -1259,6 +1303,65 @@ public class Sistema extends javax.swing.JFrame {
         LimpiarProveedor();
     }//GEN-LAST:event_btnNuevoProveedorActionPerformed
 
+    private void TableProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableProductoMouseClicked
+        // Seleccionar Filas de Productos:
+        int fila = TableProducto.rowAtPoint(evt.getPoint());
+        txtIdProducto.setText(TableProducto.getValueAt(fila, 0).toString());
+        txtCodigoProducto.setText(TableProducto.getValueAt(fila, 1).toString());
+        txtDescripcionProducto.setText(TableProducto.getValueAt(fila, 2).toString());
+        cbxProveedorProducto.setSelectedItem(TableProducto.getValueAt(fila, 3).toString());
+        txtCantidadProducto.setText(TableProducto.getValueAt(fila, 4).toString());
+        txtPrecioProducto.setText(TableProducto.getValueAt(fila, 5).toString());
+
+    }//GEN-LAST:event_TableProductoMouseClicked
+
+    private void btnNuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoProductoActionPerformed
+        LimpiarProductos();
+    }//GEN-LAST:event_btnNuevoProductoActionPerformed
+
+    private void btnEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProductoActionPerformed
+        if (!"".equals(txtIdProducto.getText())) {
+            int pregunta = JOptionPane.showConfirmDialog(null, "Estas seguro de eliminar");
+            if (pregunta == 0) {
+                int id = Integer.parseInt(txtIdProducto.getText());
+                proDao.EliminarProducto(id);
+
+                LimpiarTable();
+                ListarProductos();
+                LimpiarProductos();
+            }
+        }
+    }//GEN-LAST:event_btnEliminarProductoActionPerformed
+
+    private void btnEditarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarProductoActionPerformed
+        if ("".equals(txtIdProducto.getText())) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila");
+            return;
+        }
+        if (!"".equals(txtCodigoProducto.getText())
+                && !"".equals(txtDescripcionProducto.getText())
+                && !"".equals(txtCantidadProducto.getText())
+                && !"".equals(txtPrecioProducto.getText())){
+            
+            pro.setCodigo(txtCodigoProducto.getText());
+            pro.setNombre(txtDescripcionProducto.getText());
+            pro.setProveedor(cbxProveedorProducto.getSelectedItem().toString());
+            pro.setStock(Integer.parseInt(txtCantidadProducto.getText()));
+            pro.setPrecio(Double.parseDouble(txtPrecioProducto.getText()));
+            pro.setId(Integer.parseInt(txtIdProducto.getText()));
+            proDao.ModificarProductos(pro);
+
+            JOptionPane.showMessageDialog(null, "Producto Actualizado", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+            LimpiarTable();
+            ListarProductos();
+            LimpiarProductos();
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Complete todos los campos");
+        }
+    }//GEN-LAST:event_btnEditarProductoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1301,6 +1404,8 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JTable TableProveedor;
     private javax.swing.JTable TableVenta;
     private javax.swing.JTable TableVentas;
+    private javax.swing.JButton btnClientes;
+    private javax.swing.JButton btnConfig;
     private javax.swing.JButton btnEditarCliente;
     private javax.swing.JButton btnEditarProducto;
     private javax.swing.JButton btnEditarProveedor;
@@ -1312,18 +1417,16 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardarCliente;
     private javax.swing.JButton btnGuardarProducto;
     private javax.swing.JButton btnGuardarProveedor;
+    private javax.swing.JButton btnNuevaVenta;
     private javax.swing.JButton btnNuevoCliente;
     private javax.swing.JButton btnNuevoProducto;
     private javax.swing.JButton btnNuevoProveedor;
     private javax.swing.JButton btnPdfVentas;
+    private javax.swing.JButton btnProductos;
+    private javax.swing.JButton btnProveedores;
+    private javax.swing.JButton btnVentas;
     private javax.swing.JComboBox<String> cbxProveedorProducto;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton23;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -1421,4 +1524,14 @@ public class Sistema extends javax.swing.JFrame {
         txtDireccionProveedor.setText("");
         txtRazonProveedor.setText("");
     }
+
+    private void LimpiarProductos() {
+        txtIdProducto.setText("");
+        txtCodigoProducto.setText("");
+        txtDescripcionProducto.setText("");
+        txtCantidadProducto.setText("");
+        txtPrecioProducto.setText("");
+        cbxProveedorProducto.setSelectedItem("");
+    }
+
 }
