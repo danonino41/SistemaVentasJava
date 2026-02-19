@@ -11,12 +11,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ClientesDAO {
+
     Conexion cn = new Conexion();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
-    
-    public boolean RegistrarCliente(Clientes cl){
+
+    public boolean RegistrarCliente(Clientes cl) {
         String sql = "INSERT INTO CLIENTES (dni, nombre, telefono, direccion, razon) VALUES (?,?,?,?,?)";
         try {
             con = cn.getConnection();
@@ -31,7 +32,7 @@ public class ClientesDAO {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.toString());
             return false;
-        }finally{
+        } finally {
             try {
                 con.close();
             } catch (Exception e) {
@@ -39,15 +40,15 @@ public class ClientesDAO {
             }
         }
     }
-    
-    public List ListarCliente(){
+
+    public List ListarCliente() {
         List<Clientes> ListaCl = new ArrayList();
         String sql = "SELECT * FROM clientes";
         try {
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 Clientes cl = new Clientes();
                 cl.setId(rs.getInt("id"));
                 cl.setDni(rs.getInt("dni"));
@@ -62,8 +63,8 @@ public class ClientesDAO {
         }
         return ListaCl;
     }
-    
-    public boolean EliminarCliente(int id){
+
+    public boolean EliminarCliente(int id) {
         String sql = "DELETE FROM CLIENTES WHERE id = ?";
         try {
             ps = con.prepareStatement(sql);
@@ -73,7 +74,7 @@ public class ClientesDAO {
         } catch (Exception e) {
             System.out.println(e.toString());
             return false;
-        }finally{
+        } finally {
             try {
                 con.close();
             } catch (SQLException ex) {
@@ -81,8 +82,8 @@ public class ClientesDAO {
             }
         }
     }
-    
-    public boolean ActualizarCliente(Clientes cl){
+
+    public boolean ActualizarCliente(Clientes cl) {
         String sql = "UPDATE CLIENTES SET dni=?, nombre=?, telefono=?, direccion=?, razon=? WHERE id=?";
         try {
             ps = con.prepareStatement(sql);
@@ -97,12 +98,32 @@ public class ClientesDAO {
         } catch (SQLException e) {
             System.out.println(e.toString());
             return false;
-        }finally{
+        } finally {
             try {
                 con.close();
             } catch (SQLException e) {
                 System.out.println(e.toString());
             }
         }
+    }
+
+    public Clientes BuscarCliente(int dni) {
+        Clientes cl = new Clientes();
+        String sql = "SELECT * FROM clientes WHERE dni = ?";
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, dni);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                cl.setNombre(rs.getString("nombre"));
+                cl.setTelefono(rs.getInt("telefono"));
+                cl.setDireccion(rs.getString("direccion"));
+                cl.setRazon(rs.getString("razon"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+        return cl;
     }
 }
